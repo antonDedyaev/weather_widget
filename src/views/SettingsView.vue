@@ -1,0 +1,176 @@
+<template>
+  <div class="settingsWrapper">
+    <div class="settingsWrapper__header">
+      <span>Settings</span>
+      <img
+        src="../assets/images/close.svg"
+        alt="Close icon"
+        @click="$router.push('/')"
+      />
+    </div>
+    <div
+      class="settingsWrapper__locations"
+      v-for="location in locations"
+      :key="location.id"
+    >
+      <LocationCard
+        :id="location.id"
+        :city="location.name"
+        :country="location.country"
+        @dragstart="startDrag($event, location)"
+        @drop="onDrop($event, location)"
+        @dragover.prevent="$event.currentTarget.style.background = 'darkgray'"
+        @dragenter.prevent
+        @dragleave="$event.currentTarget.style.background = 'lightgray'"
+      />
+    </div>
+    <div class="settingsWrapper__locationControl">
+      <span>Add location:</span>
+      <div class="settingsWrapper__locationInput">
+        <input
+          type="text"
+          :value="searchQuery"
+          @input="($event) => setSearchQuery(($event.target as HTMLInputElement).value)"
+          :autofocus="true"
+          @keyup.enter="fetchWeather(searchQuery)"
+        />
+        <img src="../assets/images/arrow-enter.svg" alt="Enter arrow" />
+      </div>
+      <div
+        class="settingsWrapper__warnMessage"
+        :class="{ settingsWrapper__warnMessage_active: errors }"
+      >
+        No matching locations!
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { State, defineComponent } from "vue";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { mapState, mapActions, mapMutations } from "vuex";
+import LocationCard from "@/components/LocationCard.vue";
+
+import ILocation from "@/models/ILocation";
+
+export default defineComponent({
+  components: {
+    LocationCard,
+  },
+  methods: {
+    ...mapMutations({
+      setSearchQuery: "setSearchQuery",
+      setError: "setError",
+    }),
+    ...mapActions(["fetchWeather", "checkLocations"]),
+
+    startDrag(event: DragEvent, location: ILocation) {
+      if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = "move";
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("locationID", String(location.id));
+      }
+    },
+    onDrop(event: DragEvent, location: ILocation) {
+      const draggedLocationID = Number(
+        event.dataTransfer?.getData("locationID")
+      );
+      const draggedLocation: ILocation = this.locations.find(
+        (location: ILocation) => location.id === draggedLocationID
+      );
+      const fixedLocationOrder = draggedLocation.order;
+      draggedLocation.order = location.order;
+      location.order = fixedLocationOrder;
+      if (event.currentTarget)
+        (event.currentTarget as HTMLDivElement).style.background = "lightgray";
+      localStorage.setItem("locations", JSON.stringify(this.locations));
+    },
+  },
+  computed: {
+    ...mapState({
+      searchQuery: (state: State) => state.searchQuery,
+      locations: (state: State) =>
+        state.locations.sort((a, b) => a.order - b.order),
+      errors: (state: State) => state.errors,
+    }),
+  },
+  mounted() {
+    this.checkLocations();
+    this.setSearchQuery("");
+    this.setError(false);
+  },
+});
+</script>
+
+<style lang="scss">
+@import "../styles/main";
+.settingsWrapper {
+  display: flex;
+  max-width: 300px;
+
+  flex-direction: column;
+  margin-left: 5px;
+  padding: 20px;
+
+  border-radius: 5px;
+  box-shadow: 0 5px 5px 5px gray;
+
+  &__header {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  &__locationControl {
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  &__locationInput {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+
+    input {
+      width: 80%;
+      padding: 6px 15px;
+      border: 1px solid rgb(61, 61, 243);
+      border-radius: 4px;
+
+      font-size: 20px;
+
+      box-shadow: 0px 8px 12px 4px darkgray;
+    }
+  }
+  &__warnMessage {
+    max-height: 0px;
+    width: 80%;
+    padding: 14px 5px 10px 5px;
+    box-shadow: 0 0 12px 4px darkgray;
+    color: red;
+    text-shadow: 0 0 2px orange;
+    opacity: 0;
+
+    border-radius: 0 0 5px 5px;
+
+    text-align: center;
+    &_active {
+      max-height: 50px;
+      opacity: 1;
+
+      transition: max-height 0.4s, opacity 1s;
+    }
+  }
+}
+</style>

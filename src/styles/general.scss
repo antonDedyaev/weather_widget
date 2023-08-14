@@ -1,0 +1,27 @@
+@font-face {
+	font-weight: 400;
+	font-family: "Poppins";
+	src: url("@/assets/fonts/Poppins-Regular.ttf");
+}
+
+@font-face {
+	font-weight: 600;
+	font-family: "Poppins";
+	src: url("@/assets/fonts/Poppins-SemiBold.ttf");
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	display: flex;
+	justify-content: center;
+	font-family: "Poppins", " Arial", sans-serif;
+	font-size: 16px;
+	line-height: 120%;
+	color: $text;
+}
