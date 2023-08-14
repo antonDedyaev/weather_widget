@@ -7,7 +7,7 @@
       class="homepageWrapper_empty"
       v-if="!dataFetched || locations.length === 0"
     >
-      <div
+      <!-- <div
         class="homepageWrapper__cityInput"
         :class="{ homepageWrapper__cityInput_warn: errors }"
       >
@@ -19,14 +19,14 @@
           @keyup.enter="fetchWeather(searchQuery)"
           :autofocus="true"
         />
-      </div>
+      </div> -->
       <div class="homepageWrapper__warning">
         <img
           src="../assets/images/alert-triangle.svg"
           alt="No locations added warning"
         />
 
-        <span>No locations found!</span>
+        <span>No locations added</span>
       </div>
     </div>
     <div v-for="location in locations.slice(0, 2)" v-else :key="location.name">
@@ -50,17 +50,14 @@ export default defineComponent({
 
   methods: {
     ...mapMutations({
-      setSearchQuery: "setSearchQuery",
       setError: "setError",
     }),
-    ...mapActions(["fetchWeather", "checkLocations"]),
+    ...mapActions(["checkLocations"]),
   },
   computed: {
     ...mapState({
-      searchQuery: (state: State) => state.searchQuery,
       dataFetched: (state: State) => state.dataFetched,
       locations: (state: State) => state.locations,
-      errors: (state: State) => state.errors,
     }),
   },
   mounted() {
@@ -81,9 +78,9 @@ export default defineComponent({
   margin: 10px 0;
   flex-direction: column;
 
-  //background: $bgd-gray;
-
   border-radius: 5px;
+
+  box-shadow: 0 2px 10px 3px darkgray;
 
   &__settings {
     position: absolute;
@@ -113,50 +110,50 @@ export default defineComponent({
     width: 100%;
   }
 
-  &__cityInput {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 80%;
-    height: 28px;
-    margin: 60px 0 20px;
+  // &__cityInput {
+  //   position: relative;
+  //   display: flex;
+  //   align-items: center;
+  //   width: 80%;
+  //   height: 28px;
+  //   margin: 60px 0 20px;
 
-    &::before {
-      position: absolute;
-      top: 2px;
-      left: 8px;
-      content: url("../assets/images/magnifying-glass.svg");
-      opacity: 0.4;
-    }
+  //   &::before {
+  //     position: absolute;
+  //     top: 2px;
+  //     left: 8px;
+  //     content: url("../assets/images/magnifying-glass.svg");
+  //     opacity: 0.4;
+  //   }
 
-    input {
-      padding: 5px 15px 5px 34px;
-      width: 100%;
-      height: 30px;
-      border-radius: 12px;
-      border: none;
+  //   input {
+  //     padding: 5px 15px 5px 34px;
+  //     width: 100%;
+  //     height: 30px;
+  //     border-radius: 12px;
+  //     border: none;
 
-      font-size: 16px;
+  //     font-size: 16px;
 
-      &::placeholder {
-        color: $text-input;
-      }
-    }
+  //     &::placeholder {
+  //       color: $text-input;
+  //     }
+  //   }
 
-    &_warn {
-      input {
-        border: 2px solid red;
-        font-size: 18px;
-        color: red;
-      }
-    }
-  }
+  //   &_warn {
+  //     input {
+  //       border: 2px solid red;
+  //       font-size: 18px;
+  //       color: red;
+  //     }
+  //   }
+  // }
 
   &__warning {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 20px 0 80px;
+    margin: 80px 0;
 
     font-size: 22px;
     text-align: center;

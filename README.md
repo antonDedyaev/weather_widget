@@ -1,23 +1,29 @@
-# weather_widget
+# Weather Widget
 
-## Project setup
-```
-npm install
-```
+This is a Vue-based SPA.
+Upon initial start the app detects your geolocation and displays local weather (using ipinfo.io). 
+Go to settings to add new locations. You can add as many locations as you want, while the widget displays the first two locations in the list. Swap location cards to set the order or delete locations, if required.
+The settings are cached via localStorage, so your locations are saved between app sessions.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Install:
 
-### Compiles and minifies for production
 ```
-npm run build
+make install
 ```
 
-### Lints and fixes files
+### Compile and hot-reload for development
 ```
-npm run lint
+make start
+```
+
+### Compile and minify for production
+```
+make build
+```
+
+### Lint and fix files
+```
+make lint
 ```
 
 ### Customize configuration

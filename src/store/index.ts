@@ -50,7 +50,7 @@ export default createStore({
         );
         if (savedLocations.length === 0) {
           const currentLocation = await axios.get(
-            `https://ipinfo.io/json?token=${process.env.VUE_APP_IPINFO_TOKEN}`
+            `https://ipinfo.io/json?tokens=${process.env.VUE_APP_IPINFO_TOKEN}`
           );
           const city: string = currentLocation.data.city;
           dispatch("fetchWeather", city);
@@ -59,7 +59,7 @@ export default createStore({
           commit("setDataFetched", true);
         }
       } catch (e: any) {
-        console.log(e);
+        console.log(e.message);
         commit("setDataFetched", false);
       }
     },

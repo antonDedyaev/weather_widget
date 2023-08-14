@@ -12,6 +12,7 @@
       class="settingsWrapper__locations"
       v-for="location in locations"
       :key="location.id"
+      @dragover.prevent="$event.currentTarget.style.background = 'darkgray'"
     >
       <LocationCard
         :id="location.id"
@@ -19,7 +20,6 @@
         :country="location.country"
         @dragstart="startDrag($event, location)"
         @drop="onDrop($event, location)"
-        @dragover.prevent="$event.currentTarget.style.background = 'darkgray'"
         @dragenter.prevent
         @dragleave="$event.currentTarget.style.background = 'lightgray'"
       />
