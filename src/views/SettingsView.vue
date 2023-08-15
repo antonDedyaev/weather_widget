@@ -12,7 +12,6 @@
       class="settingsWrapper__locations"
       v-for="location in locations"
       :key="location.id"
-      @dragover.prevent="$event.currentTarget.style.background = 'darkgray'"
     >
       <LocationCard
         :id="location.id"
@@ -21,7 +20,11 @@
         @dragstart="startDrag($event, location)"
         @drop="onDrop($event, location)"
         @dragenter.prevent
+        @dragover.prevent="$event.currentTarget.style.background = 'darkgray'"
         @dragleave="$event.currentTarget.style.background = 'lightgray'"
+        @touchstart="onTouchDragStart($event, location)"
+        @touchmove="onTouchDragMove"
+        @touchend="onTouchDrop($event, location)"
       />
     </div>
     <div class="settingsWrapper__locationControl">
@@ -59,6 +62,13 @@ export default defineComponent({
   components: {
     LocationCard,
   },
+  data() {
+    return {
+      dropOverID: null,
+      sourceCard: null,
+      targetCard: null,
+    };
+  },
   methods: {
     ...mapMutations({
       setSearchQuery: "setSearchQuery",
@@ -86,6 +96,37 @@ export default defineComponent({
       if (event.currentTarget)
         (event.currentTarget as HTMLDivElement).style.background = "lightgray";
       localStorage.setItem("locations", JSON.stringify(this.locations));
+    },
+    onTouchDragStart($event: TouchEvent) {
+      //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      if ($event) this.currentId = $event.currentTarget.dataset.id;
+    },
+    onTouchDragMove($event: TouchEvent) {
+      if ($event) {
+        const coordX = $event.changedTouches[0].clientX;
+        const coordY = $event.changedTouches[0].clientY;
+        const target = document.elementFromPoint(coordX, coordY)?.parentElement;
+        if (target?.parentElement?.matches(".locationCardWrapper")) {
+          this.dropOverID = target.parentElement.dataset.id;
+        }
+      }
+    },
+    onTouchDrop($event: TouchEvent, location: ILocation) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      if (!$event?.target?.matches(".locationCardWrapper__remove")) {
+        const dropOverLocation: ILocation = this.locations.find(
+          (location: ILocation) => {
+            return location.id === Number(this.dropOverID);
+          }
+        );
+
+        const fixedLocationOrder = dropOverLocation.order;
+        dropOverLocation.order = location.order;
+        location.order = fixedLocationOrder;
+        localStorage.setItem("locations", JSON.stringify(this.locations));
+      }
     },
   },
   computed: {

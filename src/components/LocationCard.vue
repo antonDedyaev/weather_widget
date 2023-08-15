@@ -1,13 +1,15 @@
 <template>
-  <div class="locationCardWrapper" draggable="true">
+  <div class="locationCardWrapper" draggable="true" :data-id="id">
     <div class="locationCardWrapper__content">
       <img
         src="../assets/images/hamburger.svg"
         alt="Drag icon"
         draggable="false"
+        class="test"
       />
       <span>{{ city }}, {{ country }}</span>
       <img
+        class="locationCardWrapper__remove"
         src="../assets/images/bin.svg"
         alt="Waste bin icon"
         @click="removeLocation(id)"
