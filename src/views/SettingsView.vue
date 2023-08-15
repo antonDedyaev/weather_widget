@@ -65,8 +65,6 @@ export default defineComponent({
   data() {
     return {
       dropOverID: null,
-      sourceCard: null,
-      targetCard: null,
     };
   },
   methods: {
@@ -98,9 +96,8 @@ export default defineComponent({
       localStorage.setItem("locations", JSON.stringify(this.locations));
     },
     onTouchDragStart($event: TouchEvent) {
-      //eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      if ($event) this.currentId = $event.currentTarget.dataset.id;
+      if ($event)
+        this.currentId = ($event.currentTarget as HTMLDivElement).dataset.id;
     },
     onTouchDragMove($event: TouchEvent) {
       if ($event) {
@@ -108,14 +105,17 @@ export default defineComponent({
         const coordY = $event.changedTouches[0].clientY;
         const target = document.elementFromPoint(coordX, coordY)?.parentElement;
         if (target?.parentElement?.matches(".locationCardWrapper")) {
+          target.parentElement.style.background = "darkgray";
           this.dropOverID = target.parentElement.dataset.id;
         }
       }
     },
     onTouchDrop($event: TouchEvent, location: ILocation) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      if (!$event?.target?.matches(".locationCardWrapper__remove")) {
+      if (
+        !($event.target as HTMLDivElement).matches(
+          ".locationCardWrapper__remove"
+        )
+      ) {
         const dropOverLocation: ILocation = this.locations.find(
           (location: ILocation) => {
             return location.id === Number(this.dropOverID);
@@ -125,6 +125,8 @@ export default defineComponent({
         const fixedLocationOrder = dropOverLocation.order;
         dropOverLocation.order = location.order;
         location.order = fixedLocationOrder;
+        // $event?.target?.parentElement?.style?.background = "lightgray";
+
         localStorage.setItem("locations", JSON.stringify(this.locations));
       }
     },

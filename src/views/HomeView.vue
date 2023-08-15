@@ -1,25 +1,12 @@
 <template>
-  <div class="homepageWrapper">
+  <div
+    class="homepageWrapper"
+    :class="{ homepageWrapper_empty: locations.length === 0 }"
+  >
     <div class="homepageWrapper__settings" @click="$router.push('/settings')">
       <img src="../assets/images/gear.svg" alt="settings icon" />
     </div>
-    <div
-      class="homepageWrapper_empty"
-      v-if="!dataFetched || locations.length === 0"
-    >
-      <!-- <div
-        class="homepageWrapper__cityInput"
-        :class="{ homepageWrapper__cityInput_warn: errors }"
-      >
-        <input
-          type="text"
-          :value="searchQuery"
-          @input="($event) => setSearchQuery(($event.target as HTMLInputElement).value)"
-          placeholder="Type city location"
-          @keyup.enter="fetchWeather(searchQuery)"
-          :autofocus="true"
-        />
-      </div> -->
+    <div v-if="locations.length === 0">
       <div class="homepageWrapper__warning">
         <img
           src="../assets/images/alert-triangle.svg"
@@ -75,12 +62,10 @@ export default defineComponent({
   width: 300px;
   display: flex;
   gap: 20px;
-  margin: 10px 0;
+  //margin: 10px 0;
   flex-direction: column;
 
   border-radius: 5px;
-
-  box-shadow: 0 2px 10px 3px darkgray;
 
   &__settings {
     position: absolute;
@@ -104,56 +89,14 @@ export default defineComponent({
   }
 
   &_empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    box-shadow: 0 2px 10px 3px darkgray;
   }
-
-  // &__cityInput {
-  //   position: relative;
-  //   display: flex;
-  //   align-items: center;
-  //   width: 80%;
-  //   height: 28px;
-  //   margin: 60px 0 20px;
-
-  //   &::before {
-  //     position: absolute;
-  //     top: 2px;
-  //     left: 8px;
-  //     content: url("../assets/images/magnifying-glass.svg");
-  //     opacity: 0.4;
-  //   }
-
-  //   input {
-  //     padding: 5px 15px 5px 34px;
-  //     width: 100%;
-  //     height: 30px;
-  //     border-radius: 12px;
-  //     border: none;
-
-  //     font-size: 16px;
-
-  //     &::placeholder {
-  //       color: $text-input;
-  //     }
-  //   }
-
-  //   &_warn {
-  //     input {
-  //       border: 2px solid red;
-  //       font-size: 18px;
-  //       color: red;
-  //     }
-  //   }
-  // }
 
   &__warning {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 80px 0;
+    margin: 50px 0;
 
     font-size: 22px;
     text-align: center;
