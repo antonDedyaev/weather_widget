@@ -41,7 +41,9 @@
       </div>
       <div
         class="settingsWrapper__warnMessage"
-        :class="{ settingsWrapper__warnMessage_active: errors }"
+        :class="{
+          settingsWrapper__warnMessage_active: errors && searchQuery === '',
+        }"
       >
         No matching locations!
       </div>
@@ -125,8 +127,6 @@ export default defineComponent({
         const fixedLocationOrder = dropOverLocation.order;
         dropOverLocation.order = location.order;
         location.order = fixedLocationOrder;
-        // $event?.target?.parentElement?.style?.background = "lightgray";
-
         localStorage.setItem("locations", JSON.stringify(this.locations));
       }
     },
@@ -154,6 +154,7 @@ export default defineComponent({
   max-width: 300px;
 
   flex-direction: column;
+  margin-top: 10px;
   margin-left: 5px;
   padding: 20px;
 
