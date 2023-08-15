@@ -111,9 +111,11 @@ export default {
   }
 
   &__header {
+    width: 75%;
+
     h1 {
       margin: 20px 0 12px 0;
-      text-align: left;
+      text-align: center;
       font-feature-settings: "clig" off, "liga" off;
       font-family: Poppins;
       font-size: 20px;

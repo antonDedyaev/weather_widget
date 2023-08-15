@@ -62,7 +62,7 @@ export default defineComponent({
   width: 300px;
   display: flex;
   gap: 20px;
-  //margin: 10px 0;
+  margin: 10px 0;
   flex-direction: column;
 
   border-radius: 5px;

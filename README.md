@@ -8,12 +8,14 @@ The settings are cached via localStorage, so your locations are saved between ap
 Add this snippet to your to use the widget.
 ```
 <iframe
-    allowfullscreen
-	width="320"
-	height="900"
+  	allowfullscreen
+	width="340"
+	height="880"
+  	frameborder="0"
 	src="https://antondedyaev.github.io/weather_widget/"
 	name="Simple weather widget"
 ></iframe>
+
 ```
 
 ## Install:

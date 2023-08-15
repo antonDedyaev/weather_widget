@@ -76,9 +76,9 @@ export default {
       margin-left: auto;
       cursor: pointer;
 
-      &:active {
-        transform: translateY(4px);
-        transition: all 0.6s ease-in-out;
+      &:hover {
+        filter: invert(21%) sepia(100%) saturate(7414%) hue-rotate(359deg)
+          brightness(94%) contrast(117%);
       }
     }
   }
