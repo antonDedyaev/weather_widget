@@ -107,7 +107,7 @@ export default defineComponent({
         const coordY = $event.changedTouches[0].clientY;
         const target = document.elementFromPoint(coordX, coordY)?.parentElement;
         if (target?.parentElement?.matches(".locationCardWrapper")) {
-          target.parentElement.style.background = "darkgray";
+          target.parentElement.style.background = "$shadow-gray";
           this.dropOverID = target.parentElement.dataset.id;
         }
       }
@@ -159,7 +159,7 @@ export default defineComponent({
   padding: 20px;
 
   border-radius: 5px;
-  box-shadow: 0 5px 5px 5px gray;
+  box-shadow: 0 5px 10px 3px $shadow-gray;
 
   &__header {
     display: flex;
@@ -170,6 +170,10 @@ export default defineComponent({
 
     font-size: 20px;
     font-weight: 600;
+
+    img:hover {
+      animation: zoomIn 0.5s ease;
+    }
   }
 
   &__locationControl {
@@ -181,6 +185,15 @@ export default defineComponent({
     }
   }
 
+  @keyframes zoomIn {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1.5) rotate(180deg);
+    }
+  }
+
   &__locationInput {
     display: flex;
     gap: 5px;
@@ -189,19 +202,19 @@ export default defineComponent({
     input {
       width: 80%;
       padding: 6px 15px;
-      border: 1px solid rgb(61, 61, 243);
+      border: 1px solid $dark-blue;
       border-radius: 4px;
 
       font-size: 20px;
 
-      box-shadow: 0px 8px 12px 4px darkgray;
+      box-shadow: 0px 8px 12px 4px $shadow-gray;
     }
   }
   &__warnMessage {
     max-height: 0px;
     width: 80%;
     padding: 14px 5px 10px 5px;
-    box-shadow: 0 0 12px 4px darkgray;
+    box-shadow: 0 0 12px 4px $shadow-gray;
     color: red;
     text-shadow: 0 0 2px orange;
     opacity: 0;

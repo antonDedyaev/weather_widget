@@ -47,7 +47,7 @@ export default {
 
   background: $bgd-gray;
 
-  box-shadow: 0px 5px 10px 3px darkgray;
+  box-shadow: 0px 5px 10px 3px $shadow-gray;
 
   &:hover {
     transform: scale(1.1);

@@ -102,7 +102,7 @@ export default {
   align-items: center;
 
   background-color: $bgd-white;
-  box-shadow: 0 5px 15px 5px gray;
+  box-shadow: 0 5px 15px 5px $shadow-gray;
 
   &__settings {
     position: absolute;
@@ -149,7 +149,7 @@ export default {
     line-height: 120%; /* 86.4px */
     letter-spacing: -0.24px;
 
-    text-shadow: 4px 4px 4px darkgray;
+    text-shadow: 4px 4px 4px $shadow-gray;
   }
 
   &__description {
